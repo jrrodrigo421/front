@@ -1,11 +1,13 @@
-import ProfessionalList from "./components/professionalList";
+import LoginPage from "./components/loginPage";
+// import ProfessionalList from "./components/professionalList";
 
 export function App() {
 
   return (
     
    <div className="p-8">
-      <ProfessionalList></ProfessionalList>
+      {/* <ProfessionalList></ProfessionalList> */}
+      <LoginPage></LoginPage>
    </div>
     
    

@@ -99,7 +99,7 @@ const ProfessionalList: React.FC = () => {
     }
   />
  
-  <button className='bg-slate-300' type="submit">Criar Profissional</button>
+  <button className='bg-slate-300 rounded-2xl' type="submit">Criar Profissional</button>
 </form>
     </div>
   );
