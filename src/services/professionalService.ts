@@ -2,11 +2,15 @@
 import axios from 'axios';
 import { Professional } from '../models/professional';
 
-const baseUrl = 'http://localhost:3000'; // Ajuste a URL base do seu backend
+const baseUrl = 'http://localhost:3000/api'; // Ajuste a URL base do seu backend
 
 export const getProfessionals = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/professionals`);
+    const response = await axios.get(`${baseUrl}/professionals`); 
+    console.log('RESULTADO DA BUSCA');
+    
+    console.log(response.data);
+    
     return response.data; // Array de profissionais
   } catch (error) {
     console.error('Erro ao buscar profissionais:', error);

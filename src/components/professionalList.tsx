@@ -17,6 +17,8 @@ const ProfessionalList: React.FC = () => {
     const fetchProfessionals = async () => {
       try {
         const fetchedProfessionals = await getProfessionals();
+        console.log(fetchProfessionals);
+        
         setProfessionals(fetchedProfessionals);
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
@@ -43,6 +45,19 @@ const ProfessionalList: React.FC = () => {
 
   return (
     <div>
+      
+      <div>
+      <h1>Lista de Profissionais</h1>
+      <ul>
+        {professionals.map((professional) => (
+          <li className='p-4'>
+            <strong>Nome:</strong> {professional.name} <br />
+            <strong>Categoria:</strong> {professional.category} <br />
+            <strong>Localização:</strong> {professional.location}
+          </li>
+        ))}
+      </ul>
+      </div>
     
       
       <form
@@ -59,7 +74,7 @@ const ProfessionalList: React.FC = () => {
   }}
 >
 
-  <input
+  <input className='p-2'
     type="text"
     placeholder="Nome"
     value={newProfessional.name}
@@ -84,7 +99,7 @@ const ProfessionalList: React.FC = () => {
     }
   />
  
-  <button type="submit">Criar Profissional</button>
+  <button className='bg-slate-300' type="submit">Criar Profissional</button>
 </form>
     </div>
   );
