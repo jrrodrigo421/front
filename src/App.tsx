@@ -19,6 +19,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from './components/loginPage';
 import ProfessionalList from './components/professionalList';
 import Navigation from './components/navigation';
+import HomePage from './components/homePage';
 
 
 // import Home from './pages/Home';
@@ -37,8 +38,9 @@ const App: React.FC = () => (
     <div>
       <Navigation />
       <Routes>
-      <Route path="/"  Component={LoginPage} />
+      <Route path="/"  Component={HomePage} />
       <Route path="/professional-list" Component={ProfessionalList} />
+      <Route path="/login" Component={LoginPage} />
       </Routes>
       
       {/* Outras rotas aqui */}
