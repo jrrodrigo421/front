@@ -108,6 +108,7 @@ import React, { useState, useEffect } from 'react';
 import { Professional } from '../models/professional';
 import { getProfessionals, createProfessional } from '../services/professionalService';
 import backgroundImage from '../assets/images/backgroundImage.jpg';
+import LoaderSimple from './loaderSimple';
 
 
 const ProfessionalList: React.FC = () => {
@@ -118,6 +119,8 @@ const ProfessionalList: React.FC = () => {
     location: '',
     availability: [],
   });
+  const [isLoading, setIsLoading] = useState(false); // State for loader
+
 
   useEffect(() => {
     const fetchProfessionals = async () => {
@@ -133,17 +136,33 @@ const ProfessionalList: React.FC = () => {
   }, []);
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
+    setIsLoading(true);
     try {
       const createdProfessional = await createProfessional(newProfessional);
       setProfessionals([...professionals, createdProfessional]);
       console.log('Profissional criado com sucesso!');
     } catch (error) {
       console.error('Erro ao criar profissional:', error);
+    } finally{
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
   };
 
   return (
-    <div className="max-w mx-auto p-4 text-center "   style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div className="max-w mx-auto p-4 text-center " style={{
+       backgroundImage: `url(${backgroundImage})`,
+       backgroundSize: 'cover',
+       backgroundPosition: 'center',
+       filter: isLoading? 'blur(5px)' : 'none' }}>
+         {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          {/* Loader */}
+          <LoaderSimple></LoaderSimple>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-violet-700"></div>
+        </div>
+      )}
       <div className="max-w-md mx-auto p-4 text-center bg-violet-200
 ">
       <br />
@@ -195,10 +214,10 @@ const ProfessionalList: React.FC = () => {
       <br />
       <br />
       <br />
-      <h1 className="text-2xl font-semibold mb-4">Lista de Profissionais</h1>
+      <h1 className="text-2xl font-semibold mb-4">Profissionais disponíveis agora:  </h1>
       <ul>
         {professionals.map((professional) => (
-          <li  className="p-4 border-b">
+          <li  className="p-8 border-b">
             <strong>Nome:</strong> {professional.name} <br />
             <strong>Categoria:</strong> {professional.category} <br />
             <strong>Localização:</strong> {professional.location}
