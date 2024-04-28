@@ -1,11 +1,13 @@
 // src/components/LoginPage.tsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { handleLogin } from '../services/aurhService';
 
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   
   
@@ -14,6 +16,9 @@ const LoginPage: React.FC = () => {
     try {
       await handleLogin(email, password);
       // Lógica adicional após o login bem-sucedido (redirecionar, atualizar o estado global de autenticação, etc.)
+      navigate('/professional-list')
+      console.log('ERA PRA NAVEGAR, mas nao esta navegando');
+      
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       // Tratar erros de login (exibir mensagem de erro, limpar campos do formulário, etc.)
