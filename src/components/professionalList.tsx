@@ -4,6 +4,7 @@ import { getProfessionals, createProfessional } from '../services/professionalSe
 import backgroundImage from '../assets/images/backgroundImage.jpg';
 import LoaderSimple from './loaderSimple';
 import { useLocation, useNavigate } from 'react-router-dom';
+import logoImage from '../assets/images/logo.jpg'; 
 
 
 const ProfessionalList: React.FC = () => {
@@ -27,6 +28,7 @@ const ProfessionalList: React.FC = () => {
         setProfessionals(fetchedProfessionals);
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
+        
         navigate('/login',);
       }
     };
@@ -36,7 +38,7 @@ const ProfessionalList: React.FC = () => {
     
     fetchProfessionals();
     
-  }, [token]);
+  }, [navigate, token]);
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
     setIsLoading(true);
@@ -52,6 +54,11 @@ const ProfessionalList: React.FC = () => {
       }, 2000);
     }
   };
+  
+  const handleLogout = () =>{
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <div className="max-w mx-auto p-4 text-center " style={{
@@ -70,6 +77,9 @@ const ProfessionalList: React.FC = () => {
 ">
       <br />
       <br />
+     <div className='flex justify-center'>
+     <img src={logoImage} width={300} height={300} alt="" />
+     </div>
       <br />
       <form
         onSubmit={(event) => {
@@ -108,12 +118,19 @@ const ProfessionalList: React.FC = () => {
         />
         
         <button
-          className="bg-violet-700 rounded-2xl p-2 w-full text-white"
+          className="bg-violet-700 rounded-2xl p-2 w-full text-white hover:bg-violet-900"
           type="submit"
         >
           Criar Profissional
         </button>
       </form>
+      <br />
+      <button
+          onClick={handleLogout} // Chama a função handleLogout ao clicar no botão
+          className="bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-900"
+        >
+          Logout
+        </button>
       <br />
       <br />
       <br />
