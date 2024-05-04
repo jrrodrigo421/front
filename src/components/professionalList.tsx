@@ -4,7 +4,7 @@ import { getProfessionals, createProfessional } from '../services/professionalSe
 import backgroundImage from '../assets/images/backgroundImage.jpg';
 import LoaderSimple from './loaderSimple';
 import { useLocation, useNavigate } from 'react-router-dom';
-import logoImage from '../assets/images/logo.jpg'; 
+import logoImage from '../assets/images/logo2.jpg'; 
 
 
 const ProfessionalList: React.FC = () => {
