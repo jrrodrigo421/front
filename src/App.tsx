@@ -16,6 +16,7 @@ const App: React.FC = () => (
       <Route path="/professional-list" Component={ProfessionalList} />
       <Route path="/login" Component={LoginPage} />
       <Route path="/register" Component={RegisterPage} />
+      <Route path="*" element={<HomePage />} />
       </Routes>
       
       {/* Outras rotas aqui */}

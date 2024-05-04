@@ -29,7 +29,7 @@ const ProfessionalList: React.FC = () => {
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
         
-        navigate('/login',);
+        navigate('/');
       }
     };
     
