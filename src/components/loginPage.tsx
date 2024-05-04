@@ -16,10 +16,16 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await handleLogin(email, password);
-      // Lógica adicional após o login bem-sucedido (redirecionar, atualizar o estado global de autenticação, etc.)
-      navigate('/professional-list')
-      console.log('ERA PRA NAVEGAR, mas nao esta navegando');
+      // await handleLogin(email, password);
+      
+      // // Lógica adicional após o login bem-sucedido (redirecionar, atualizar o estado global de autenticação, etc.)
+      // navigate('/professional-list')
+      
+      const token = await handleLogin(email, password);
+      localStorage.setItem('token', token);
+
+      // Redireciona para a rota /professional-list com o token como parâmetro de rota
+      navigate('/professional-list', { state: { token } });
       
     } catch (error) {
       console.error('Erro ao fazer login:', error);

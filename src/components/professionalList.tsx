@@ -3,6 +3,7 @@ import { Professional } from '../models/professional';
 import { getProfessionals, createProfessional } from '../services/professionalService';
 import backgroundImage from '../assets/images/backgroundImage.jpg';
 import LoaderSimple from './loaderSimple';
+import { useLocation } from 'react-router-dom';
 
 
 const ProfessionalList: React.FC = () => {
@@ -13,26 +14,32 @@ const ProfessionalList: React.FC = () => {
     location: '',
     availability: [],
   });
-  const [isLoading, setIsLoading] = useState(false); // State for loader
+  const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
+  const token = location.state?.token;
 
 
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
-        const fetchedProfessionals = await getProfessionals();
+        const fetchedProfessionals = await getProfessionals(token);
         setProfessionals(fetchedProfessionals);
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
       }
     };
-
+    
+    
+    console.log('Token recebido', token);
+    
     fetchProfessionals();
-  }, []);
+    
+  }, [token]);
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
     setIsLoading(true);
     try {
-      const createdProfessional = await createProfessional(newProfessional);
+      const createdProfessional = await createProfessional(token, newProfessional);
       setProfessionals([...professionals, createdProfessional]);
       console.log('Profissional criado com sucesso!');
     } catch (error) {
@@ -40,7 +47,7 @@ const ProfessionalList: React.FC = () => {
     } finally{
       setTimeout(() => {
         setIsLoading(false);
-      }, 3000);
+      }, 2000);
     }
   };
 
