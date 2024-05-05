@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { handleRegister } from '../services/aurhService';
 import backgroundImage from '../assets/images/backgroundImage.jpg';
 import { UserDTO } from '../dtos/userRegister';
+import Modal from './modal';
 
 
 
@@ -16,6 +17,8 @@ const RegisterPage: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
   // const navigate = useNavigate();
 
   
@@ -27,11 +30,17 @@ const RegisterPage: React.FC = () => {
       console.log('PRINTANDO userDTO    >>>>>>>>>>>>>>>>>>>>   >>>', userDto);
       
       await handleRegister(userDto)
+      setModalMessage('Cadastro realizado com sucesso!');
+      setModalShow(true);
+      setEmail('');
+      setName('');
       
      
     } catch (error) {
       console.error('Erro ao fazer login:', error);
       // Tratar erros de login (exibir mensagem de erro, limpar campos do formulário, etc.)
+      setModalMessage('Erro ao cadastrar usuário. Por favor, tente novamente.');
+      setModalShow(true);
     }
   };
   
@@ -119,8 +128,11 @@ const RegisterPage: React.FC = () => {
           </button>
         </form>
       </div>
+      <Modal show={modalShow} onClose={() => setModalShow(false)} message={modalMessage} /> 
+
     </div>
   );
 };
 
 export default RegisterPage;
+  
