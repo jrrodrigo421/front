@@ -8,10 +8,10 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-violet-700 py-4">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center">
-          <a href="/" className="text-white text-lg font-semibold mr-4">Logo</a>
+          <a href="/" className="text-white text-lg font-semibold mr-4">Início</a>
           <button 
             onClick={toggleMobileMenu}
             className="block lg:hidden text-white focus:outline-none">
@@ -22,18 +22,18 @@ const NavBar: React.FC = () => {
         </div>
         <div className="hidden lg:flex">
           <ul className="flex space-x-4">
-            <li><a href="/" className="text-white hover:text-gray-300">Home</a></li>
-            <li><a href="/about" className="text-white hover:text-gray-300">About</a></li>
-            <li><a href="/contact" className="text-white hover:text-gray-300">Contact</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Cadastrar profissional</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Achar profissional</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Sair</a></li>
           </ul>
         </div>
       </div>
       {isMobileMenuOpen && (
         <div className="lg:hidden">
           <ul className="flex flex-col space-y-4 mt-4">
-            <li><a href="/" className="text-white hover:text-gray-300">Home</a></li>
-            <li><a href="/about" className="text-white hover:text-gray-300">About</a></li>
-            <li><a href="/contact" className="text-white hover:text-gray-300">Contact</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Cadastrar profissional</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Achar profissional</a></li>
+            <li><a href="/" className="text-white hover:text-gray-300">Sair</a></li>
           </ul>
         </div>
       )}

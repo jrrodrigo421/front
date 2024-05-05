@@ -2,14 +2,17 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Professional } from '../models/professional';
 
-const baseUrl = 'http://localhost:3000/api'; // Ajuste a URL base do seu backend
+const baseUrl = 'http://localhost:3000/api'; 
 
-export const getProfessionals = async (token: string) => {
+export const getProfessionals = async (token: string, page: number) => {
   try {
     
     const config: AxiosRequestConfig = {
       headers:{
         Authorization: `Bearer ${token}`,
+      },
+      params:{
+        page
       }
     }
     
@@ -18,10 +21,10 @@ export const getProfessionals = async (token: string) => {
     
     console.log(response.data);
     
-    return response.data; // Array de profissionais
+    return response.data['professionals'];
   } catch (error) {
     console.error('Erro ao buscar profissionais:', error);
-    throw error; // Repasse o erro para ser tratado no componente
+    throw error; 
   }
 };
 

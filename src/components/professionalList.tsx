@@ -28,21 +28,25 @@ const ProfessionalList: React.FC = () => {
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
-        const fetchedProfessionals = await getProfessionals(token);
-        setProfessionals(fetchedProfessionals.slice(-5));
+        const fetchedProfessionals = await getProfessionals(token, 1);
+        
+        setProfessionals(fetchedProfessionals);
+        console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
+        
+        console.log('IMPRIMINDO PROFESSINALS', professionals);
+        
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
         
         navigate('/');
       }
     };
-    
-    
     console.log('Token recebido', token);
     
     fetchProfessionals();
     
   }, [navigate, token]);
+  
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
     setIsLoading(true);
@@ -90,12 +94,13 @@ const ProfessionalList: React.FC = () => {
 
   return (
     
-    <div className="max-w mx-auto p-4 text-center " style={{
+    <div>
+      <NavBar></NavBar>
+      <div className="max-w mx-auto p-4 text-center " style={{
        backgroundImage: `url(${backgroundImage})`,
        backgroundSize: 'cover',
        backgroundPosition: 'center',
        filter: isLoading? 'blur(5px)' : 'none' }}>
-        <NavBar></NavBar>
          {isLoading && (
         <div className="h-full w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           {/* Loader */}
@@ -169,7 +174,7 @@ const ProfessionalList: React.FC = () => {
       <br />
       <h1 className="text-2xl font-semibold mb-4">Profissionais disponíveis agora:  </h1>
       <ul>
-        {professionals.map((professional, index) => (
+      {Array.isArray(professionals) && professionals.map((professional, index) => (
           <li key={index} className="p-8 border-b">
             <strong>Nome:</strong> {professional.name} <br />
             <strong>Categoria:</strong> {professional.category} <br />
@@ -184,6 +189,7 @@ const ProfessionalList: React.FC = () => {
     <br />
     <br />
     <br />
+    </div>
     </div>
   );
 };
