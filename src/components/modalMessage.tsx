@@ -6,7 +6,7 @@ interface ModalProps {
   message: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ show, onClose, message }) => {
+const ModalMessage: React.FC<ModalProps> = ({ show, onClose, message }) => {
   useEffect(() => {
     if (show) {
       const timer = setTimeout(() => {
@@ -43,4 +43,4 @@ const Modal: React.FC<ModalProps> = ({ show, onClose, message }) => {
   );
 };
 
-export default Modal;
+export default ModalMessage;

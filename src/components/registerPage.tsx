@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { handleRegister } from '../services/aurhService';
 import backgroundImage from '../assets/images/backgroundImage.jpg';
 import { UserDTO } from '../dtos/userRegister';
-import Modal from './modal';
+import ModalMessage from './modalMessage';
 
 
 
@@ -27,13 +27,18 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
     try {
       const userDto  = createUserDTO();
-      console.log('PRINTANDO userDTO    >>>>>>>>>>>>>>>>>>>>   >>>', userDto);
       
       await handleRegister(userDto)
       setModalMessage('Cadastro realizado com sucesso!');
       setModalShow(true);
       setEmail('');
       setName('');
+      setAddress('');
+      setCity('');
+      setCpf('');
+      setPassword('');
+      setPasswordConfirm('');
+      setPhone('')
       
      
     } catch (error) {
@@ -122,13 +127,13 @@ const RegisterPage: React.FC = () => {
           />
           <button
             type="submit"
-            className="w-full bg-violet-700 text-white py-2 rounded-md hover:bg-violet-600"
+            className="w-full bg-violet-700 text-white py-2 rounded-md hover:bg-violet-900"
           >
             Registrar
           </button>
         </form>
       </div>
-      <Modal show={modalShow} onClose={() => setModalShow(false)} message={modalMessage} /> 
+      <ModalMessage show={modalShow} onClose={() => setModalShow(false)} message={modalMessage} /> 
 
     </div>
   );

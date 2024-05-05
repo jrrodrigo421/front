@@ -5,6 +5,7 @@ import backgroundImage from '../assets/images/backgroundImage.jpg';
 import LoaderSimple from './loaderSimple';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/images/logo2.jpg'; 
+import ModalMessage from './modalMessage';
 
 
 const ProfessionalList: React.FC = () => {
@@ -19,13 +20,15 @@ const ProfessionalList: React.FC = () => {
   const location = useLocation();
   const token = location.state?.token;
   const navigate = useNavigate();
+  const [modalMessage, setModalMessage] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
 
   useEffect(() => {
     const fetchProfessionals = async () => {
       try {
         const fetchedProfessionals = await getProfessionals(token);
-        setProfessionals(fetchedProfessionals);
+        setProfessionals(fetchedProfessionals.slice(-5));
       } catch (error) {
         console.error('Erro ao buscar profissionais:', error);
         
@@ -44,10 +47,22 @@ const ProfessionalList: React.FC = () => {
     setIsLoading(true);
     try {
       const createdProfessional = await createProfessional(token, newProfessional);
-      setProfessionals([...professionals, createdProfessional]);
+      
       console.log('Profissional criado com sucesso!');
+      setModalMessage('Sucesso ao criar profissional');
+      setIsModalVisible(true);
+      setProfessionals([...professionals, createdProfessional]);
+      setNewProfessional({
+        name: '',
+        category: '',
+        location: '',
+        availability: [],
+      })
+    
     } catch (error) {
       console.error('Erro ao criar profissional:', error);
+      setModalMessage('Erro ao criar profissional. Por favor, tente novamente.');
+      setIsModalVisible(true);
     } finally{
       setTimeout(() => {
         setIsLoading(false);
@@ -59,6 +74,18 @@ const ProfessionalList: React.FC = () => {
     localStorage.removeItem('token');
     navigate('/login');
   }
+  
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+    if (modalMessage.startsWith('Profissional criado com sucesso!')) {
+      setNewProfessional({
+        name: '',
+        category: '',
+        location: '',
+        availability: [],
+      });
+    }
+  };
 
   return (
     <div className="max-w mx-auto p-4 text-center " style={{
@@ -66,6 +93,7 @@ const ProfessionalList: React.FC = () => {
        backgroundSize: 'cover',
        backgroundPosition: 'center',
        filter: isLoading? 'blur(5px)' : 'none' }}>
+        <ModalMessage show={isModalVisible} onClose={handleCloseModal } message={modalMessage}></ModalMessage>
          {isLoading && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           {/* Loader */}
@@ -125,7 +153,7 @@ const ProfessionalList: React.FC = () => {
       </form>
       <br />
       <button
-          onClick={handleLogout} // Chama a função handleLogout ao clicar no botão
+          onClick={handleLogout} 
           className="bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-900"
         >
           Logout
@@ -135,8 +163,8 @@ const ProfessionalList: React.FC = () => {
       <br />
       <h1 className="text-2xl font-semibold mb-4">Profissionais disponíveis agora:  </h1>
       <ul>
-        {professionals.map((professional) => (
-          <li  className="p-8 border-b">
+        {professionals.map((professional, index) => (
+          <li key={index} className="p-8 border-b">
             <strong>Nome:</strong> {professional.name} <br />
             <strong>Categoria:</strong> {professional.category} <br />
             <strong>Localização:</strong> {professional.location} <br />

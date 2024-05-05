@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
           />
           <button
             type="submit"
-            className="w-full bg-violet-700 text-white py-2 rounded-md hover:bg-violet-600"
+            className="w-full bg-violet-700 text-white py-2 rounded-md hover:bg-violet-900"
           >
             Entrar
           </button>
