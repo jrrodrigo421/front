@@ -26,37 +26,40 @@ const ProfessionalList: React.FC = () => {
 
 
   useEffect(() => {
-    const fetchProfessionals = async () => {
-      try {
-        const fetchedProfessionals = await getProfessionals(token, 1);
-        
-        setProfessionals(fetchedProfessionals);
-        console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
-        
-        console.log('IMPRIMINDO PROFESSINALS', professionals);
-        
-      } catch (error) {
-        console.error('Erro ao buscar profissionais:', error);
-        
-        navigate('/');
-      }
-    };
+   
     console.log('Token recebido', token);
     
     fetchProfessionals();
     
   }, [navigate, token]);
   
+  const fetchProfessionals = async () => {
+    try {
+      const fetchedProfessionals = await getProfessionals(token, 1);
+      
+      setProfessionals(fetchedProfessionals);
+      console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
+      
+      console.log('IMPRIMINDO PROFESSINALS', professionals);
+      
+    } catch (error) {
+      console.error('Erro ao buscar profissionais:', error);
+      
+      navigate('/');
+    }
+  };
+  
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
     setIsLoading(true);
     try {
-      const createdProfessional = await createProfessional(token, newProfessional);
-      
+      // const createdProfessional = await createProfessional(token, newProfessional);
+      await createProfessional(token, newProfessional);
       console.log('Profissional criado com sucesso!');
       setModalMessage('Sucesso ao criar profissional');
       setIsModalVisible(true);
-      setProfessionals([...professionals, createdProfessional]);
+      // setProfessionals([...professionals, createdProfessional]);
+      fetchProfessionals();
       setNewProfessional({
         name: '',
         category: '',
@@ -181,7 +184,7 @@ const ProfessionalList: React.FC = () => {
             <strong>Localização:</strong> {professional.location} <br />
             <button className='bg-violet-700'>Ver mais</button> 
           </li>
-        )).reverse()}
+        ))}
       </ul>
 
       
