@@ -6,6 +6,7 @@ import LoaderSimple from './loaderSimple';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/images/logo2.jpg'; 
 import ModalMessage from './modalMessage';
+import NavBar from './navBar';
 
 
 const ProfessionalList: React.FC = () => {
@@ -88,19 +89,24 @@ const ProfessionalList: React.FC = () => {
   };
 
   return (
+    
     <div className="max-w mx-auto p-4 text-center " style={{
        backgroundImage: `url(${backgroundImage})`,
        backgroundSize: 'cover',
        backgroundPosition: 'center',
        filter: isLoading? 'blur(5px)' : 'none' }}>
-        <ModalMessage show={isModalVisible} onClose={handleCloseModal } message={modalMessage}></ModalMessage>
+        <NavBar></NavBar>
          {isLoading && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="h-full w-full fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           {/* Loader */}
           <LoaderSimple></LoaderSimple>
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-violet-700"></div>
         </div>
       )}
+      {!isLoading && (
+        <ModalMessage show={isModalVisible} onClose={handleCloseModal} message={modalMessage}></ModalMessage>
+      )}
+      
       <div className="max-w-md mx-auto p-4 text-center bg-violet-200">
       <br />
       <br />
@@ -175,6 +181,9 @@ const ProfessionalList: React.FC = () => {
 
       
     </div>
+    <br />
+    <br />
+    <br />
     </div>
   );
 };

@@ -29,7 +29,7 @@ function LoaderSimple() {
 
     return (
         <motion.div
-            className="fixed bg-violet-700 h-screen top-0 left-0 w-full h-full flex justify-center items-center z-10"
+            className="fixed bg-violet-700 h-screen top-0 left-0 w-full flex justify-center items-center z-10"
             animate={controls}
         >
             <div className="p-4 rounded-md">
