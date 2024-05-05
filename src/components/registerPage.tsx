@@ -38,7 +38,7 @@ const RegisterPage: React.FC = () => {
      
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      // Tratar erros de login (exibir mensagem de erro, limpar campos do formulário, etc.)
+  
       setModalMessage('Erro ao cadastrar usuário. Por favor, tente novamente.');
       setModalShow(true);
     }
@@ -53,7 +53,7 @@ const RegisterPage: React.FC = () => {
       cpf,
       password,
       phone,
-      // Você pode adicionar outras propriedades do DTO aqui, se necessário
+  
     };
     return userDTO;
   };

@@ -73,8 +73,7 @@ const ProfessionalList: React.FC = () => {
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-violet-700"></div>
         </div>
       )}
-      <div className="max-w-md mx-auto p-4 text-center bg-violet-200
-">
+      <div className="max-w-md mx-auto p-4 text-center bg-violet-200">
       <br />
       <br />
      <div className='flex justify-center'>
