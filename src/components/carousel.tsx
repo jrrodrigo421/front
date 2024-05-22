@@ -31,7 +31,6 @@ const Carousel: React.FC<CarouselProps> = ({ totalPages, currentPage, profession
             <p><strong>Nome:</strong> {professional.name}</p>
             <p><strong>Categoria:</strong> {professional.category}</p>
             <p><strong>Localização:</strong> {professional.location}</p>
-            {/* Adicione mais detalhes se necessário */}
           </div>
         ))}
       </div>
