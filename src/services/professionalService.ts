@@ -21,7 +21,7 @@ export const getProfessionals = async (token: string, page: number) => {
     
     console.log(response.data);
     
-    return response.data['professionals'];
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar profissionais:', error);
     throw error; 

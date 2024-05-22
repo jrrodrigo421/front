@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/images/logo2.jpg'; 
 import ModalMessage from './modalMessage';
 import NavBar from './navBar';
+import Carousel from './carousel';
 
 
 const ProfessionalList: React.FC = () => {
@@ -17,6 +18,8 @@ const ProfessionalList: React.FC = () => {
     location: '',
     availability: [],
   });
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const token = location.state?.token;
@@ -29,37 +32,87 @@ const ProfessionalList: React.FC = () => {
    
     console.log('Token recebido', token);
     
-    fetchProfessionals();
+    fetchProfessionals(currentPage);
     
   }, [navigate, token]);
   
-  const fetchProfessionals = async () => {
-    try {
-      const fetchedProfessionals = await getProfessionals(token, 1);
+  // const fetchProfessionals = async (page: number) => {
+  //   try {
+  //     const { totalPages, currentPage, professionals: fetchedProfessionals } = await getProfessionals(token, page);
+  //     setTotalPages(totalPages);
+  //     setCurrentPage(currentPage);
+  //     setProfessionals(fetchedProfessionals);
+  //     console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
       
+  //     console.log('IMPRIMINDO PROFESSINALS', professionals);
+      
+  //   } catch (error) {
+  //     console.error('Erro ao buscar profissionais:', error);
+      
+  //     navigate('/');
+  //   }
+  // };
+  
+  
+  const fetchProfessionals = async (page: number) => {
+    try {
+      const { totalPages, currentPage, professionals: fetchedProfessionals } = await getProfessionals(token, page);
+      setTotalPages(totalPages);
+      setCurrentPage(currentPage);
       setProfessionals(fetchedProfessionals);
       console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
-      
-      console.log('IMPRIMINDO PROFESSINALS', professionals);
-      
+      return fetchedProfessionals; // Retornar os profissionais buscados
     } catch (error) {
       console.error('Erro ao buscar profissionais:', error);
-      
       navigate('/');
+      return []; // Retornar uma lista vazia em caso de erro
     }
   };
+  
+  
+ 
+  
+  // const nextPage = async () => {
+  //   if (currentPage < totalPages) {
+  //     const nextPageNumber = currentPage + 1;
+  //     await fetchProfessionals(nextPageNumber);
+  //   }
+  // };
+  
+  // const prevPage = async () => {
+  //   if (currentPage > 1) {
+  //     const prevPageNumber = currentPage - 1;
+  //     await fetchProfessionals(prevPageNumber);
+  //   }
+  // };
+  
+  const nextPage = async () => {
+    if (currentPage < totalPages) {
+      const nextPageNumber = currentPage + 1;
+      const newProfessionals = await fetchProfessionals(nextPageNumber);
+      return newProfessionals;
+    }
+  };
+  
+  const prevPage = async () => {
+    if (currentPage > 1) {
+      const prevPageNumber = currentPage - 1;
+      const newProfessionals = await fetchProfessionals(prevPageNumber);
+      return newProfessionals;
+    }
+  };
+  
+  
   
 
   const handleCreateProfessional = async (newProfessional: Professional) => {
     setIsLoading(true);
     try {
-      // const createdProfessional = await createProfessional(token, newProfessional);
       await createProfessional(token, newProfessional);
       console.log('Profissional criado com sucesso!');
       setModalMessage('Sucesso ao criar profissional');
       setIsModalVisible(true);
-      // setProfessionals([...professionals, createdProfessional]);
-      fetchProfessionals();
+      fetchProfessionals(currentPage);
       setNewProfessional({
         name: '',
         category: '',
@@ -94,6 +147,8 @@ const ProfessionalList: React.FC = () => {
       });
     }
   };
+  
+  
 
   return (
     
@@ -170,21 +225,20 @@ const ProfessionalList: React.FC = () => {
           onClick={handleLogout} 
           className="bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-900"
         >
-          Logout
+          Sair
         </button>
       <br />
       <br />
       <br />
       <h1 className="text-2xl font-semibold mb-4">Profissionais disponíveis agora:  </h1>
       <ul>
-      {Array.isArray(professionals) && professionals.map((professional, index) => (
-          <li key={index} className="p-8 border-b">
-            <strong>Nome:</strong> {professional.name} <br />
-            <strong>Categoria:</strong> {professional.category} <br />
-            <strong>Localização:</strong> {professional.location} <br />
-            <button className='bg-violet-700'>Ver mais</button> 
-          </li>
-        ))}
+        <Carousel 
+          totalPages={totalPages}
+          currentPage={currentPage}
+          professionals={professionals}
+          onNextPage={nextPage}
+          onPrevPage={prevPage}
+        ></Carousel>
       </ul>
 
       
