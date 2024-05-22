@@ -8,6 +8,8 @@ import logoImage from '../assets/images/logo2.jpg';
 import ModalMessage from './modalMessage';
 import NavBar from './navBar';
 import Carousel from './carousel';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebaseConfig';
 
 
 const ProfessionalList: React.FC = () => {
@@ -17,6 +19,7 @@ const ProfessionalList: React.FC = () => {
     category: '',
     location: '',
     availability: [],
+    avatar: '',
   });
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,22 +39,6 @@ const ProfessionalList: React.FC = () => {
     
   }, [navigate, token]);
   
-  // const fetchProfessionals = async (page: number) => {
-  //   try {
-  //     const { totalPages, currentPage, professionals: fetchedProfessionals } = await getProfessionals(token, page);
-  //     setTotalPages(totalPages);
-  //     setCurrentPage(currentPage);
-  //     setProfessionals(fetchedProfessionals);
-  //     console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
-      
-  //     console.log('IMPRIMINDO PROFESSINALS', professionals);
-      
-  //   } catch (error) {
-  //     console.error('Erro ao buscar profissionais:', error);
-      
-  //     navigate('/');
-  //   }
-  // };
   
   
   const fetchProfessionals = async (page: number) => {
@@ -61,30 +48,25 @@ const ProfessionalList: React.FC = () => {
       setCurrentPage(currentPage);
       setProfessionals(fetchedProfessionals);
       console.log('IMPRIMINDO fetchedProfessionals', fetchedProfessionals);
-      return fetchedProfessionals; // Retornar os profissionais buscados
+      return fetchedProfessionals;
     } catch (error) {
       console.error('Erro ao buscar profissionais:', error);
       navigate('/');
-      return []; // Retornar uma lista vazia em caso de erro
+      return []; 
     }
   };
   
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if(event.target.files && event.target.files[0]){
+      const file = event.target.files[0];
+      const storageRef = ref(storage, `avatars/${file.name}`);
+      await uploadBytes(storageRef, file);
+      const photoURL = await getDownloadURL(storageRef);
+      setNewProfessional({...newProfessional, avatar: photoURL});
+    }
+  }
   
- 
   
-  // const nextPage = async () => {
-  //   if (currentPage < totalPages) {
-  //     const nextPageNumber = currentPage + 1;
-  //     await fetchProfessionals(nextPageNumber);
-  //   }
-  // };
-  
-  // const prevPage = async () => {
-  //   if (currentPage > 1) {
-  //     const prevPageNumber = currentPage - 1;
-  //     await fetchProfessionals(prevPageNumber);
-  //   }
-  // };
   
   const nextPage = async () => {
     if (currentPage < totalPages) {
@@ -118,6 +100,7 @@ const ProfessionalList: React.FC = () => {
         category: '',
         location: '',
         availability: [],
+        avatar: '',
       })
     
     } catch (error) {
@@ -144,6 +127,7 @@ const ProfessionalList: React.FC = () => {
         category: '',
         location: '',
         availability: [],
+        avatar: '',
       });
     }
   };
@@ -211,6 +195,10 @@ const ProfessionalList: React.FC = () => {
           onChange={(e) =>
             setNewProfessional({ ...newProfessional, location: e.target.value })
           }
+        />
+        <input
+          type="file"
+          onChange={handleImageUpload} // Função de upload da imagem
         />
         
         <button
